@@ -352,9 +352,76 @@
         font-size: 0.93rem;
     }
 
-    </style>   
+    .calculator-container {
+        width: 100%;
+        margin: 20px auto;
+        padding: 20px;
+        background: #2f3136;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        color: #dcddde;
+        display: flex;
+        justify-content: center; /* Centre horizontalement tout le contenu */
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    .calculator-inline {
+        display: flex;
+        align-items: center; /* Centre verticalement les éléments */
+        gap: 20px; /* Ajoute un petit espace entre chaque élément */
+        flex-wrap: nowrap; /* Empêche le passage à la ligne */
+    }
+    
+    .field {
+        display: flex;
+        flex-direction: column; /* Label au-dessus de l'input */
+        align-items: center; /* Centre les labels et inputs */
+    }
+    
+    label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    input {
+        width: 80px; /* Taille compacte des champs d'entrée */
+        padding: 5px;
+        border: 1px solid #4f545c;
+        border-radius: 5px;
+        background: #23272a;
+        color: #dcddde;
+        font-size: 0.9rem;
+        text-align: center; /* Texte centré dans les champs */
+    }
+    
+    input:focus {
+        border-color: #7289da;
+        outline: none;
+    }
+    
+    .result {
+        font-size: 1.1rem;
+        font-weight: bold;
+        color: #43b581; /* Vert pour le texte principal */
+        text-align: center;
+        white-space: nowrap; /* Empêche le résultat de passer à la ligne */
+        margin-top: 20px; /* Ajoute un petit espace vertical entre le résultat et les champs */
+    }
+    
+    input[type="number"] {
+        -moz-appearance: textfield;
+        -webkit-appearance: none; 
+        appearance: none; 
+    }
+    
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>   
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 <body>
@@ -375,6 +442,27 @@
             <label for="approveCheckbox">Lu en 2 secondes mais approuvé, je ne poursuivrai pas en justice le créateur de cette page si je comprends pas pourquoi mon turbo à fondu alors que je fumais comme une locomotive en fond de 6 à 5500RPM.</label>
         </div>
     </div>
+
+    <div class="calculator-container">
+        <div class="calculator-inline">
+            <div class="field">
+                <label for="puissanceSouhaitee">Puissance Souhaitée (ch)</label>
+                <input type="number" id="puissanceSouhaitee" placeholder="250" value="" oninput="calculerInjection()">
+            </div>
+    
+            <div class="field">
+                <label for="injectionActuelle">Injection Actuelle (mg)</label>
+                <input type="number" id="injectionActuelle" placeholder="47" value="" oninput="calculerInjection()">
+            </div>
+    
+            <div class="field">
+                <label for="puissanceOrigine">Puissance d'Origine (ch)</label>
+                <input type="number" id="puissanceOrigine" placeholder="130" value="" oninput="calculerInjection()">
+            </div>
+    
+            <div id="resultat" class="result">Nouvelle Injection à 4000 rpm : <span style="color: red;">--</span></div>
+        </div>
+    </div>    
     
     <div class="global-container">
         <div class="table-container">
@@ -803,6 +891,20 @@
 
             loadTableData(tableId);
         });
+
+    function calculerInjection() {
+        const puissanceSouhaitee = parseFloat(document.getElementById("puissanceSouhaitee").value);
+        const injectionActuelle = parseFloat(document.getElementById("injectionActuelle").value);
+        const puissanceOrigine = parseFloat(document.getElementById("puissanceOrigine").value);
+        const resultatDiv = document.getElementById("resultat");
+    
+        if (!isNaN(puissanceSouhaitee) && !isNaN(injectionActuelle) && !isNaN(puissanceOrigine) && puissanceOrigine > 0) {
+            const nouvelleInjection = (puissanceSouhaitee * injectionActuelle / puissanceOrigine).toFixed(2);
+            resultatDiv.innerHTML = `Nouvelle Injection à 4000 rpm : <span style="color: red;">${nouvelleInjection} mg</span>`;
+        } else {
+            resultatDiv.innerHTML = "Nouvelle Injection à 4000 rpm : <span style='color: red;'>--</span>";
+        }
+    }
 
     </script>
 </body>
