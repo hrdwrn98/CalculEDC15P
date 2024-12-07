@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcul EDC15P</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            background-color: #36393f;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            flex-direction: column;
+            gap: 0;
+            overflow-x: hidden;
+        }
+
+        html {
+            overflow: -moz-scrollbars-none;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+    
+        .instructions-container {
+            width: 94%;
+            max-width: 96.7%;
+            margin: 20px auto;
+            background: #2f3136;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            font-size: 0.93rem;
+            line-height: 1.6;
+            color: #dcddde;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            border: 1px solid rgba(114, 137, 218, 0.2);
+        }
+    
+        .instructions-container:hover {
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+        }
+    
+        .instructions-container h2 {
+            color: #7289da;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            border-bottom: 3px solid #7289da;
+            padding-bottom: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+    
+        .instructions-container p {
+            margin-bottom: 20px;
+            text-align: justify;
+            font-size: 1rem;
+            color: #b9bbbe;
+            background: rgba(47, 49, 54, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+    
+        .instructions-container p:hover {
+            background-color: #42454a;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+    
+        .instructions-container ul {
+            list-style-type: disc;
+            padding-left: 30px;
+            margin-bottom: 25px;
+            color: #b9bbbe;
+        }
+    
+        .instructions-container li {
+            margin-bottom: 15px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 20px;
+        }
+    
+        .instructions-container strong {
+            color: #f04747;
+            font-weight: 700;
+            background-color: rgba(240, 71, 71, 0.1);
+            padding: 4px 8px;
+            border-radius: 5px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+    
+        .instructions-container a {
+            color: #7289da;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
+        }
+    
+        .instructions-container a:hover {
+            color: #99aab5;
+            text-decoration: underline;
+        }
+    
+        .instructions-container blockquote {
+            margin: 25px 0;
+            padding: 20px 30px;
+            background: #23272a;
+            border-left: 5px solid #7289da;
+            font-style: italic;
+            color: #b9bbbe;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+    
+        .instructions-container blockquote:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+    
+        .instructions-container ul ul {
+            list-style-type: circle;
+            margin-top: 10px;
+            padding-left: 25px;
+            color: #b9bbbe;
+            font-size: 0.95rem;
+        }
+    
+        .instructions-container hr {
+            border: none;
+            border-top: 1px solid #4f545c;
+            margin: 25px 0;
+            opacity: 0.8;
+        }
+    
+        .instructions-container .highlight {
+            background: linear-gradient(to right, #7289da, #99aab5);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            margin: 20px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px dashed #7289da;
+        }
+    
+        .instructions-container .highlight:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(to right, #99aab5, #7289da);
+        }
+    
+        h1 {
+            color: #dcddde;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 700;
+            font-size: 1.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 2px solid #4f545c;
+            padding-bottom: 10px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+    
+        .global-container {
+            width: 95%;
+            max-width: 97.5%;
+            margin: 0 auto;
+            background-color: #2f3136;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(114, 137, 218, 0.2);
+            padding: 20px;
+            overflow: auto;
+            position: relative;
+            height: 70vh;
+            overflow-x: hidden;
+        }
+
+        .global-container::-webkit-scrollbar {
+            display: none;
+        }
+    
+        .table-container {
+            width: 100%;
+            background-color: #2c2f33;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            overflow: hidden;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 16px;
+            overflow: hidden;
+            table-layout: auto;
+        }
+    
+        th,
+        td {
+            padding: 6px;
+            text-align: center;
+            border: 1px solid transparent;
+            transition: background-color 0.3s ease, color 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+            font-size: 0.85rem;
+        }
+    
+        th {
+            background-color: #4f545c;
+            font-weight: 700;
+            color: #b9bbbe;
+            border-bottom: 2px solid #7289da;
+            white-space: nowrap;
+        }
+    
+        td {
+            background-color: #23272a;
+            cursor: pointer;
+            color: #dcddde;
+        }
+    
+        td:hover {
+            background-color: #2c2f33;
+        }
+    
+        tbody tr:nth-child(1) td {
+            color: #7289da;
+            cursor: default;
+        }
+    
+        tbody tr:nth-child(2) td {
+            color: #43b581;
+        }
+    
+        tbody tr:nth-child(3) td {
+            color: #f04747;
+        }
+    
+        tbody tr:nth-child(2) td:focus,
+        tbody tr:nth-child(3) td:focus {
+            outline: none;
+            border: 1px solid #7289da;
+            box-shadow: 0 0 10px rgba(114, 137, 218, 0.3);
+        }
+    
+        .chart-container {
+            width: 100%;
+            max-width: 97.7%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 0px;
+            border-top: 2px solid #4f545c;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+        }
+    
+        .chart {
+            flex: 1;
+            height: 275px;
+            max-width: 32%;
+            background-color: #2f3136;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            overflow: hidden;
+            padding: 10px;
+            position: relative;
+        }
+    
+        .shake {
+            animation: shake 0.5s ease;
+        }
+    
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+    
+        @media (max-width: 768px) {
+            .chart-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+    
+            .chart {
+                width: 100% !important;
+                height: auto !important;
+            }
+        }
+
+        .checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    #approveCheckbox {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #43b581;
+        border-radius: 3px;
+        outline: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    #approveCheckbox:checked {
+        background-color: #43b581;
+        border-color: #43b581;
+    }
+
+    #approveCheckbox:checked::after {
+        content: '\2713';
+        color: #fff;
+        font-size: 11px;
+        display: block;
+        text-align: center;
+        line-height: 16px;
+    }
+
+    #approveCheckbox:hover {
+        border-color: #2c6e49;
+    }
+
+    .checkbox-container label {
+        color: #dcddde;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.93rem;
+    }
+
+    </style>   
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+    <div class="instructions-container">
+        <h2>Instructions d'utilisation</h2>
+        <p>Ce tableau interactif vous permet de saisir des valeurs d'injection et d'AFR (Air-Fuel Ratio) pour différentes valeurs de RPM. Les valeurs de Boost (kPa) seront automatiquement calculées en fonction des données fournies dans le tableau. Les graphiques 2D situés en dessous représentent visuellement les valeurs de Boost, Injection et AFR en fonction du RPM.</p>
+        <p>Pour utiliser le tableau :</p>
+        <ul>
+            <li><strong>Étape 1 :</strong> Cliquez sur une cellule dans la ligne "Injection (mg)" et "AFR" et saisissez la valeur souhaitée.</li>
+            <li><strong>Étape 2 :</strong> Les valeurs de Boost seront calculées automatiquement en fonction des valeurs d'injection et d'AFR que vous avez entrées.</li>
+            <li><strong>Étape 3 :</strong> Les graphiques se mettront à jour automatiquement pour refléter les nouvelles données, vous permettant de visualiser les dynamiques entre Boost, Injection, et AFR en fonction des RPM.</li>
+        </ul>
+        <p>L'objectif de cet outil est de vous fournir une représentation des ajustements nécessaires pour atteindre une calibration efficace, en obtenant des courbes lissées et cohérentes à pleine charge. Ces graphiques vous aideront à mieux comprendre comment les différents paramètres interagissent et à affiner vos réglages pour une performance optimisée du moteur.</p>
+        <p>Plus une courbe est lissée, plus le moteur va répondre avec douceur, même si ce ressenti peut sembler minime. Une mécanique avec des courbes bien lissées fonctionne mieux à long terme. Il est vrai qu'en sortie d'usine, certaines courbes peuvent ne pas être parfaitement lissées, mais plus les courbes sont propres et régulières, plus le sentiment d'un travail bien fait se fait ressentir, à la fois en termes de satisfaction personnelle et de bénéfices pour le moteur.</p>
+        <div class="checkbox-container" id="checkboxContainer">
+            <input type="checkbox" id="approveCheckbox">
+            <label for="approveCheckbox">Lu en 2 secondes mais approuvé, je ne poursuivrai pas en justice le créateur de cette page si je comprends pas pourquoi mon turbo à fondu alors que je fumais comme une locomotive en fond de 6 à 5500RPM.</label>
+        </div>
+    </div>
+    
+    <div class="global-container">
+        <div class="table-container">
+            <h1>Calcul du boost selon l'AFR et l'injection</h1>
+            <table data-table-id="table1">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th contenteditable="true">551</th>
+                        <th contenteditable="true">1000</th>
+                        <th contenteditable="true">1250</th>
+                        <th contenteditable="true">1500</th>
+                        <th contenteditable="true">1750</th>
+                        <th contenteditable="true">1900</th>
+                        <th contenteditable="true">2016</th>
+                        <th contenteditable="true">2247</th>
+                        <th contenteditable="true">2499</th>
+                        <th contenteditable="true">2750</th>
+                        <th contenteditable="true">3000</th>
+                        <th contenteditable="true">3250</th>
+                        <th contenteditable="true">3500</th>
+                        <th contenteditable="true">3750</th>
+                        <th contenteditable="true">4000</th>
+                        <th contenteditable="true">4250</th>
+                        <th contenteditable="true">4500</th>
+                        <th contenteditable="true">4800</th>
+                        <th contenteditable="true">5200</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th contenteditable="false">Boost (kPa)</th>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                    <td contenteditable="false"></td>
+                </tr>
+                <tr>
+                    <th contenteditable="true">Injection (mg)</th>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+                <tr>
+                    <th contenteditable="true">AFR</th>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                    <td contenteditable="true"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="boostChart" class="chart"></canvas>
+        <canvas id="injectionChart" class="chart"></canvas>
+        <canvas id="afrChart" class="chart"></canvas>
+    </div>
+    
+</body>
+
+<script>
+
+        function saveTableToLocalStorage(tableId) {
+            const table = document.querySelector(`table[data-table-id="${tableId}"]`);
+            const tableData = [];
+        
+            table.querySelectorAll('tbody tr').forEach(row => {
+                const rowData = [];
+                row.querySelectorAll('td').forEach(cell => {
+                    rowData.push(cell.innerText);
+                });
+                tableData.push(rowData);
+            });
+        
+            localStorage.setItem(tableId, JSON.stringify(tableData));
+        }
+
+        function loadTableFromLocalStorage(tableId) {
+            const table = document.querySelector(`table[data-table-id="${tableId}"]`);
+            const tableData = JSON.parse(localStorage.getItem(tableId));
+        
+            if (tableData) {
+                table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
+                    const rowData = tableData[rowIndex] || [];
+                    row.querySelectorAll('td').forEach((cell, cellIndex) => {
+                        cell.innerText = rowData[cellIndex] || '';
+                    });
+                });
+            }
+        }
+
+
+        window.addEventListener('load', () => {
+            window.scrollTo(0, 0);
+        
+            if ('scrollRestoration' in history) {
+                history.scrollRestoration = 'manual';
+            }
+        });
+            
+        document.addEventListener('DOMContentLoaded', function() {
+            const approveCheckbox = document.getElementById('approveCheckbox');
+            const checkboxContainer = document.getElementById('checkboxContainer');
+            const body = document.body
+            let shakeAttemptCount = 0;
+            const maxShakeAttempts = 7;
+            let shakeTimeout;
+            let warningMessage
+        function toggleScroll(enabled) {
+            if (enabled) {
+                body.style.overflow = 'auto';
+            } else {
+                body.style.overflow = 'hidden';
+            }
+        }
+        
+        const checkboxState = localStorage.getItem('approveCheckbox');
+        if (checkboxState === 'checked') {
+            approveCheckbox.checked = true;
+            toggleScroll(true);
+        } else {
+            toggleScroll(false);
+        }
+    
+        approveCheckbox.addEventListener('change', function() {
+            if (approveCheckbox.checked) {
+                toggleScroll(true);
+                localStorage.setItem('approveCheckbox', 'checked');
+                if (warningMessage) {
+                    warningMessage.remove();
+                }
+            } else {
+                toggleScroll(false);
+                localStorage.removeItem('approveCheckbox');
+            }
+        });
+        
+            window.addEventListener('wheel', function(event) {
+                if (!approveCheckbox.checked) {
+                    shakeAttemptCount++;
+                
+                    if (shakeAttemptCount <= maxShakeAttempts) {
+                        checkboxContainer.classList.add('shake');
+                        clearTimeout(shakeTimeout);
+                        shakeTimeout = setTimeout(() => {
+                            checkboxContainer.classList.remove('shake');
+                        }, 500);
+                    }
+                
+                    if (shakeAttemptCount === maxShakeAttempts) {
+                        if (!warningMessage) {
+                            warningMessage = document.createElement('div');
+                            warningMessage.innerText = "Veuillez cocher la case pour continuer à naviguer sur cette page.";
+                            warningMessage.style.color = '#f04747';
+                            warningMessage.style.fontWeight = 'bold';
+                            warningMessage.style.marginTop = '10px';
+                            warningMessage.style.textAlign = 'center';
+                            checkboxContainer.appendChild(warningMessage);
+                        }
+                    }
+                
+                    event.preventDefault();
+                }
+            }, 
+            
+            { passive: false });
+        });
+        
+        function initializeCharts() {
+            const ctxBoost = document.getElementById('boostChart').getContext('2d');
+            const ctxInjection = document.getElementById('injectionChart').getContext('2d');
+            const ctxAFR = document.getElementById('afrChart').getContext('2d');
+
+            window.boostChart = new Chart(ctxBoost, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Boost (kPa)',
+                        data: [],
+                        borderColor: '#007bff',
+                        fill: false,
+                        tension: 0.3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'RPM'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Boost (kPa)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            window.injectionChart = new Chart(ctxInjection, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Injection (mg)',
+                        data: [],
+                        borderColor: '#28a745',
+                        fill: false,
+                        tension: 0.3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'RPM'
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 120,
+                            title: {
+                                display: true,
+                                text: 'Injection (mg)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            window.afrChart = new Chart(ctxAFR, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'AFR',
+                        data: [],
+                        borderColor: '#dc3545',
+                        fill: false,
+                        tension: 0.3,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'RPM'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'AFR'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCharts() {
+            const labels = Array.from(document.querySelector('table[data-table-id="table1"] thead tr').children)
+                .slice(1)
+                .map(cell => cell.innerText);
+
+            const boostData = Array.from(document.querySelectorAll('table[data-table-id="table1"] tbody tr:nth-child(1) td'))
+                .map(cell => parseFloat(cell.innerText) || 0);
+            const injectionData = Array.from(document.querySelectorAll('table[data-table-id="table1"] tbody tr:nth-child(2) td'))
+                .map(cell => parseFloat(cell.innerText) || 0);
+            const afrData = Array.from(document.querySelectorAll('table[data-table-id="table1"] tbody tr:nth-child(3) td'))
+                .map(cell => parseFloat(cell.innerText) || 0);
+
+            window.boostChart.data.labels = labels;
+            window.boostChart.data.datasets[0].data = boostData;
+            window.boostChart.update();
+
+            window.injectionChart.data.labels = labels;
+            window.injectionChart.data.datasets[0].data = injectionData;
+            window.injectionChart.update();
+
+            window.afrChart.data.labels = labels;
+            window.afrChart.data.datasets[0].data = afrData;
+            window.afrChart.update();
+        }
+
+
+        window.addEventListener('load', () => {
+            initializeCharts();
+            updateCharts();
+        });
+
+        function saveTableData(tableId) {
+            const table = document.querySelector(`table[data-table-id="${tableId}"]`);
+            const tableData = [];
+            table.querySelectorAll('tbody tr').forEach((row) => {
+                const rowData = [];
+                row.querySelectorAll('td').forEach((cell) => {
+                    rowData.push(cell.innerText);
+                });
+                tableData.push(rowData);
+            });
+            localStorage.setItem(tableId, JSON.stringify(tableData));
+        }
+
+        function loadTableData(tableId) {
+            const table = document.querySelector(`table[data-table-id="${tableId}"]`);
+            const tableData = JSON.parse(localStorage.getItem(tableId));
+            if (tableData) {
+                table.querySelectorAll('tbody tr').forEach((row, rowIndex) => {
+                    row.querySelectorAll('td').forEach((cell, cellIndex) => {
+                        if (tableData[rowIndex] && tableData[rowIndex][cellIndex] !== undefined) {
+                            cell.innerText = tableData[rowIndex][cellIndex];
+                        }
+                    });
+                });
+                updateBoost(tableId);
+            }
+        }
+
+        function updateBoost(tableId) {
+            const table = document.querySelector(`table[data-table-id="${tableId}"]`);
+            const injectionRow = table.querySelectorAll('tbody tr:nth-child(2) td');
+            const afrRow = table.querySelectorAll('tbody tr:nth-child(3) td');
+            const boostRow = table.querySelectorAll('tbody tr:nth-child(1) td');
+
+            injectionRow.forEach((injectionCell, index) => {
+                const injectionValue = parseFloat(injectionCell.innerText);
+                const afrValue = parseFloat(afrRow[index].innerText);
+
+                if (!isNaN(injectionValue) && !isNaN(afrValue)) {
+                    const boostValue = (afrValue * injectionValue) / 474;
+                    boostRow[index].innerText = boostValue.toFixed(2);
+                } else {
+                    boostRow[index].innerText = "";
+                }
+            });
+            updateCharts();
+        }
+
+        document.querySelectorAll('table').forEach(table => {
+            const tableId = table.getAttribute('data-table-id');
+            table.querySelectorAll('td, th').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    if (!cell.closest('tr').matches('tbody tr:nth-child(1)')) {
+                        cell.contentEditable = true;
+                        cell.focus();
+                    }
+                });
+
+                cell.addEventListener('input', () => {
+                    if (!cell.closest('tr').matches('tbody tr:nth-child(1)')) {
+                        updateBoost(tableId);
+                        saveTableData(tableId);
+                    }
+                });
+
+                cell.addEventListener('keydown', (e) => {
+                    if (e.key === "Delete" || e.key === "Insert") {
+                        if (!cell.closest('tr').matches('tbody tr:nth-child(1)')) {
+                            cell.innerText = "";
+                            e.preventDefault();
+                        }
+                    }
+                });
+            });
+
+            loadTableData(tableId);
+        });
+
+    </script>
+</body>
+</html>
